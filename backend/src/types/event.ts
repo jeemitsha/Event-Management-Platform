@@ -20,6 +20,7 @@ export interface CreateEventInput {
   maxAttendees?: number;
   image?: string;
   organizer: string;
+  [key: string]: string | number | undefined;
 }
 
 export interface UpdateEventInput {

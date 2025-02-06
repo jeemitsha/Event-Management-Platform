@@ -70,8 +70,13 @@ export const createEvent = async (req: AuthRequest, res: Response): Promise<void
     };
 
     // Validate required fields
-    const requiredFields = ['title', 'description', 'date', 'time', 'location', 'category'];
-    const missingFields = requiredFields.filter(field => !eventData[field]);
+    const requiredFields = ['title', 'description', 'date', 'time', 'location', 'category'] as const;
+    type RequiredField = typeof requiredFields[number];
+    
+    const missingFields = requiredFields.filter((field: RequiredField) => {
+      const value = eventData[field];
+      return !value || (typeof value === 'string' && !value.trim());
+    });
     
     if (missingFields.length > 0) {
       res.status(400).json({ 
@@ -81,8 +86,8 @@ export const createEvent = async (req: AuthRequest, res: Response): Promise<void
     }
 
     // Validate category
-    const validCategories = ['Conference', 'Workshop', 'Seminar', 'Networking', 'Social', 'Other'];
-    if (!validCategories.includes(eventData.category)) {
+    const validCategories = ['Conference', 'Workshop', 'Seminar', 'Networking', 'Social', 'Other'] as const;
+    if (!validCategories.includes(eventData.category as typeof validCategories[number])) {
       res.status(400).json({ error: 'Invalid category' });
       return;
     }
