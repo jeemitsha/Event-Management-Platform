@@ -92,18 +92,30 @@ export function EventProvider({ children }: { children: React.ReactNode }) {
   }, [token]);
 
   const createEvent = async (eventData: Omit<Event, '_id' | 'organizer' | 'attendees'>) => {
+    setError(null);
     try {
+      if (!token) {
+        throw new Error('Authentication required');
+      }
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/events`,
         eventData,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
       );
-      return response.data;
+      
+      const newEvent = response.data;
+      setEvents(prev => [...prev, newEvent]);
+      return newEvent;
     } catch (error: any) {
-      console.error('Create event error:', error.response?.data || error.message);
-      throw new Error(error.response?.data?.error || 'Failed to create event');
+      const errorMessage = error.response?.data?.error || error.message || 'Failed to create event';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 

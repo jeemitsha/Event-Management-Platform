@@ -59,26 +59,65 @@ export const getEvents = async (req: Request, res: Response): Promise<void> => {
 
 export const createEvent = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    if (!req.user || !req.user._id) {
+      res.status(401).json({ error: 'Authentication required' });
+      return;
+    }
+
     const eventData: CreateEventInput = {
       ...req.body,
       organizer: req.user._id
     };
 
+    // Validate required fields
+    const requiredFields = ['title', 'description', 'date', 'time', 'location', 'category'];
+    const missingFields = requiredFields.filter(field => !eventData[field]);
+    
+    if (missingFields.length > 0) {
+      res.status(400).json({ 
+        error: `Missing required fields: ${missingFields.join(', ')}` 
+      });
+      return;
+    }
+
+    // Validate category
+    const validCategories = ['Conference', 'Workshop', 'Seminar', 'Networking', 'Social', 'Other'];
+    if (!validCategories.includes(eventData.category)) {
+      res.status(400).json({ error: 'Invalid category' });
+      return;
+    }
+
+    // Create and save the event
     const event = new Event(eventData);
     event.attendees = [req.user._id];
     await event.save();
 
+    // Populate organizer and attendees information
     const populatedEvent = await event.populate([
       { path: 'organizer', select: 'name email' },
       { path: 'attendees', select: 'name email' }
     ]);
     
-    io?.emit('eventCreated', populatedEvent);
+    // Emit socket event
+    if (io) {
+      io.emit('eventCreated', populatedEvent);
+    }
 
     res.status(201).json(populatedEvent);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating event:', error);
-    res.status(400).json({ error: 'Failed to create event' });
+    
+    // Handle mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map((err: any) => err.message);
+      res.status(400).json({ error: validationErrors.join(', ') });
+      return;
+    }
+
+    // Handle other errors
+    res.status(500).json({ 
+      error: error.message || 'Failed to create event' 
+    });
   }
 };
 
