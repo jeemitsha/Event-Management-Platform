@@ -122,7 +122,10 @@ export default function EventList() {
         )}
       </div>
 
-      <EventFilters onFilterChange={handleFilterChange} filters={filters} />
+      {/* Filter Section */}
+      <div className="mb-8 sm:mb-10">
+        <EventFilters onFilterChange={handleFilterChange} filters={filters} />
+      </div>
 
       {events.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow-sm">
