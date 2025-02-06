@@ -89,9 +89,10 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+      <div className="space-y-5">
+        {/* Title Input */}
+        <div className="group">
+          <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
             Title
           </label>
           <input
@@ -100,13 +101,18 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+              focus:border-indigo-500 focus:ring-indigo-500 
+              group-hover:border-indigo-300 transition-all duration-200
+              bg-white hover:bg-indigo-50/30"
             required
+            placeholder="Enter event title"
           />
         </div>
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+        {/* Description Input */}
+        <div className="group">
+          <label htmlFor="description" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
             Description
           </label>
           <textarea
@@ -115,14 +121,19 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
             rows={3}
             value={formData.description}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+              focus:border-indigo-500 focus:ring-indigo-500 
+              group-hover:border-indigo-300 transition-all duration-200
+              bg-white hover:bg-indigo-50/30"
             required
+            placeholder="Describe your event"
           />
         </div>
 
+        {/* Date and Time Grid */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+          <div className="group">
+            <label htmlFor="date" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
               Date
             </label>
             <input
@@ -131,13 +142,16 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+                focus:border-indigo-500 focus:ring-indigo-500 
+                group-hover:border-indigo-300 transition-all duration-200
+                bg-white hover:bg-indigo-50/30"
               required
             />
           </div>
 
-          <div>
-            <label htmlFor="time" className="block text-sm font-medium text-gray-700">
+          <div className="group">
+            <label htmlFor="time" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
               Time
             </label>
             <input
@@ -146,14 +160,18 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
               name="time"
               value={formData.time}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+                focus:border-indigo-500 focus:ring-indigo-500 
+                group-hover:border-indigo-300 transition-all duration-200
+                bg-white hover:bg-indigo-50/30"
               required
             />
           </div>
         </div>
 
-        <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+        {/* Location Input */}
+        <div className="group">
+          <label htmlFor="location" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
             Location
           </label>
           <input
@@ -162,13 +180,18 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
             name="location"
             value={formData.location}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+              focus:border-indigo-500 focus:ring-indigo-500 
+              group-hover:border-indigo-300 transition-all duration-200
+              bg-white hover:bg-indigo-50/30"
             required
+            placeholder="Enter event location"
           />
         </div>
 
-        <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+        {/* Category Select */}
+        <div className="group">
+          <label htmlFor="category" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
             Category
           </label>
           <select
@@ -176,7 +199,10 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+              focus:border-indigo-500 focus:ring-indigo-500 
+              group-hover:border-indigo-300 transition-all duration-200
+              bg-white hover:bg-indigo-50/30"
             required
           >
             {categories.map((category) => (
@@ -187,9 +213,10 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
           </select>
         </div>
 
-        <div>
-          <label htmlFor="maxAttendees" className="block text-sm font-medium text-gray-700">
-            Maximum Attendees (Optional)
+        {/* Maximum Attendees Input */}
+        <div className="group">
+          <label htmlFor="maxAttendees" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
+            Maximum Attendees
           </label>
           <input
             type="number"
@@ -198,13 +225,18 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
             value={formData.maxAttendees}
             onChange={handleChange}
             min="1"
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+              focus:border-indigo-500 focus:ring-indigo-500 
+              group-hover:border-indigo-300 transition-all duration-200
+              bg-white hover:bg-indigo-50/30"
+            placeholder="Enter maximum number of attendees"
           />
         </div>
 
-        <div>
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-            Image URL (Optional)
+        {/* Image URL Input */}
+        <div className="group">
+          <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-1 group-hover:text-indigo-600 transition-colors duration-200">
+            Image URL
           </label>
           <input
             type="url"
@@ -212,31 +244,55 @@ export default function EventForm({ onSuccess, onCancel, isEditing = false, init
             name="image"
             value={formData.image}
             onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm 
+              focus:border-indigo-500 focus:ring-indigo-500 
+              group-hover:border-indigo-300 transition-all duration-200
+              bg-white hover:bg-indigo-50/30"
+            placeholder="Enter image URL for your event"
           />
         </div>
       </div>
 
+      {/* Error Display */}
       {(formError || error) && (
-        <div className="text-red-600 text-sm text-center">
+        <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-lg animate-fade-in">
           {formError || error}
         </div>
       )}
 
-      <div className="flex justify-end space-x-3">
+      {/* Form Actions */}
+      <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium 
+            text-gray-700 bg-white hover:bg-gray-50 hover:border-indigo-300 hover:text-indigo-600
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+            transition-all duration-200 transform hover:scale-105"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium 
+            rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 
+            hover:from-indigo-700 hover:to-purple-700 
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
+            disabled:opacity-50 disabled:cursor-not-allowed
+            transition-all duration-200 transform hover:scale-105 hover:shadow-lg"
         >
-          {isSubmitting ? 'Creating...' : isEditing ? 'Update Event' : 'Create Event'}
+          {isSubmitting ? (
+            <span className="inline-flex items-center">
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              Processing...
+            </span>
+          ) : (
+            isEditing ? 'Update Event' : 'Create Event'
+          )}
         </button>
       </div>
     </form>

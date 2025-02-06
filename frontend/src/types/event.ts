@@ -18,10 +18,10 @@ export interface Event {
 }
 
 export interface EventFilters {
+  searchQuery?: string;
   category?: string;
   startDate?: string;
   endDate?: string;
-  searchQuery?: string;
   minAttendees?: number;
   maxAttendees?: number;
   isUpcoming?: boolean;
@@ -54,4 +54,28 @@ export interface CreateEventData {
 
 export interface UpdateEventData extends Partial<CreateEventData> {
   _id: string;
+}
+
+export interface CreateEventInput {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  category: string;
+  maxAttendees?: number;
+  image?: string;
+  organizer: string;
+  [key: string]: string | number | undefined;
+}
+
+export interface UpdateEventInput {
+  title?: string;
+  description?: string;
+  date?: string;
+  time?: string;
+  location?: string;
+  category?: string;
+  maxAttendees?: number;
+  image?: string;
 } 

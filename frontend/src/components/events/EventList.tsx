@@ -17,15 +17,20 @@ const defaultFilters: FilterTypes = {
   endDate: '',
   isUpcoming: false,
   sortBy: 'date',
-  sortOrder: 'asc'
+  sortOrder: 'asc',
+  page: 1,
+  limit: 9
 };
 
 export default function EventList() {
-  const { events, loading, error, fetchEvents } = useEvents();
+  const { events, loading, error, pagination, fetchEvents } = useEvents();
   const { user } = useAuth();
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
-  const [filters, setFilters] = useState<FilterTypes>(defaultFilters);
+  const [filters, setFilters] = useState<FilterTypes>({
+    ...defaultFilters,
+    page: currentPage
+  });
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
@@ -41,35 +46,44 @@ export default function EventList() {
 
   // Initial load of events
   useEffect(() => {
-    fetchEvents(defaultFilters);
+    fetchEvents({
+      ...defaultFilters,
+      page: currentPage
+    });
   }, []);
 
   // Reset filters when navigating to dashboard or home
   useEffect(() => {
     if (location.pathname === '/dashboard' || location.pathname === '/') {
-      setFilters(defaultFilters);
-      fetchEvents(defaultFilters);
+      setFilters({
+        ...defaultFilters,
+        page: 1
+      });
+      setCurrentPage(1);
+      fetchEvents({
+        ...defaultFilters,
+        page: 1
+      });
     }
   }, [location.pathname]);
 
   // Handle filter changes
   useEffect(() => {
-    const currentFiltersString = JSON.stringify(filters);
-    const defaultFiltersString = JSON.stringify(defaultFilters);
-    
-    // Only fetch if filters have actually changed and aren't the defaults
-    if (currentFiltersString !== defaultFiltersString) {
-      fetchEvents(filters);
-    }
-  }, [filters]);
+    const updatedFilters = {
+      ...filters,
+      page: currentPage
+    };
+    fetchEvents(updatedFilters);
+  }, [filters, currentPage]);
 
   const handleFilterChange = (newFilters: FilterTypes) => {
-    setFilters(newFilters);
     setCurrentPage(1); // Reset to first page when filters change
+    setFilters(newFilters);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleEventClick = (e: React.MouseEvent, eventId: string) => {
@@ -255,13 +269,16 @@ export default function EventList() {
             ))}
           </div>
 
-          <div className="mt-8">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={Math.ceil(events.length / 9)}
-              onPageChange={handlePageChange}
-            />
-          </div>
+          {/* Update pagination section */}
+          {pagination && pagination.totalPages > 1 && (
+            <div className="mt-8">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={pagination.totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
         </>
       )}
 
