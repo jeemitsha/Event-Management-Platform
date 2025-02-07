@@ -8,6 +8,7 @@ import EventList from './components/events/EventList';
 import EventForm from './components/events/EventForm';
 import EventDetails from './components/events/EventDetails';
 import Navbar from './components/layout/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   return (
@@ -35,7 +36,10 @@ function App() {
                   path="/events/new"
                   element={
                     <ProtectedRoute>
-                      <EventForm />
+                      <EventForm 
+                        onSuccess={() => window.location.href = '/dashboard'} 
+                        onCancel={() => window.location.href = '/dashboard'} 
+                      />
                     </ProtectedRoute>
                   }
                 />
@@ -43,7 +47,7 @@ function App() {
                   path="/events/:id"
                   element={
                     <ProtectedRoute>
-                      <EventDetails />
+                      <EventDetailsWrapper />
                     </ProtectedRoute>
                   }
                 />
@@ -51,7 +55,11 @@ function App() {
                   path="/events/:id/edit"
                   element={
                     <ProtectedRoute>
-                      <EventForm isEditing />
+                      <EventForm 
+                        isEditing={true}
+                        onSuccess={() => window.location.href = '/dashboard'} 
+                        onCancel={() => window.location.href = '/dashboard'} 
+                      />
                     </ProtectedRoute>
                   }
                 />
@@ -67,6 +75,23 @@ function App() {
         </EventProvider>
       </AuthProvider>
     </div>
+  );
+}
+
+// Wrapper component to handle eventId and onClose props
+function EventDetailsWrapper() {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+
+  if (!id) {
+    return <Navigate to="/dashboard" />;
+  }
+
+  return (
+    <EventDetails 
+      eventId={id} 
+      onClose={() => navigate('/dashboard')} 
+    />
   );
 }
 

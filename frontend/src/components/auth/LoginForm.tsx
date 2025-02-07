@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const { login, guestLogin, error } = useAuth();
+  const { login, guestLogin, error: authError } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -12,6 +12,7 @@ export default function LoginForm() {
   const [guestEmail, setGuestEmail] = useState('');
   const [showGuestForm, setShowGuestForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [formError, setFormError] = useState('');
   const [guestFormError, setGuestFormError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +20,7 @@ export default function LoginForm() {
       ...formData,
       [e.target.name]: e.target.value
     });
+    setFormError('');
   };
 
   const handleGuestEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,17 +31,18 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccessMessage('');
+    setFormError('');
 
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setError('Please enter a valid email address');
+      setFormError('Please enter a valid email address');
       return;
     }
 
     // Validate password length
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setFormError('Password must be at least 6 characters long');
       return;
     }
 
@@ -136,9 +139,9 @@ export default function LoginForm() {
             </div>
           </div>
 
-          {error && (
+          {formError && (
             <div className="text-red-500 text-sm text-center animate-fade-in">
-              {error}
+              {formError}
             </div>
           )}
           {successMessage && (
