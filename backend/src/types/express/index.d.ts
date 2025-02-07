@@ -10,3 +10,8 @@ declare global {
     }
   }
 }
+
+// Extend AuthRequest from Express.Request
+export interface AuthRequest extends Express.Request {
+  user: IUser & { _id: Types.ObjectId };
+}
