@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose, { Document } from 'mongoose';
 import { User, IUser } from '../models/User';
+import { AuthRequest } from '../types/express';
 
 export interface AuthRequest extends Request {
   user: Document<unknown, any, IUser> & IUser & { _id: mongoose.Types.ObjectId };

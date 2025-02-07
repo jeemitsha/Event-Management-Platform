@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { IUser } from '../models/User';
 
 declare global {
@@ -6,4 +7,8 @@ declare global {
       user?: IUser;
     }
   }
+}
+
+export interface AuthRequest extends Request {
+  user: IUser;
 } 

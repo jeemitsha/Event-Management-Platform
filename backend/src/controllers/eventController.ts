@@ -5,6 +5,7 @@ import { buildEventQuery } from '../utils/search';
 import { Server } from 'socket.io';
 import { CreateEventInput, UpdateEventInput } from '../types/event';
 import { AuthRequest } from '../middleware/auth';
+import { IUser } from '../models/User';
 
 let io: Server;
 
@@ -255,4 +256,8 @@ export const leaveEvent = async (req: AuthRequest, res: Response): Promise<void>
     console.error('Error leaving event:', error);
     res.status(400).json({ error: 'Failed to leave event' });
   }
-}; 
+};
+
+interface AuthRequest extends Request {
+  user?: IUser;
+} 
