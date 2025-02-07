@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { EventProvider } from './context/EventContext';
 import LoginForm from './components/auth/LoginForm';
@@ -8,7 +8,6 @@ import EventList from './components/events/EventList';
 import EventForm from './components/events/EventForm';
 import EventDetails from './components/events/EventDetails';
 import Navbar from './components/layout/Navbar';
-import { useNavigate } from 'react-router-dom';
 
 function App() {
   return (

@@ -144,6 +144,11 @@ export default function LoginForm() {
               {formError}
             </div>
           )}
+          {authError && !formError && (
+            <div className="text-red-500 text-sm text-center animate-fade-in">
+              {authError}
+            </div>
+          )}
           {successMessage && (
             <div className="text-green-500 text-sm text-center animate-fade-in">
               {successMessage}

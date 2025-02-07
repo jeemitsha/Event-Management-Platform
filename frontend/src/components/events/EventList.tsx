@@ -8,7 +8,6 @@ import Modal from '../common/Modal';
 import EventDetails from './EventDetails';
 import EventForm from './EventForm';
 import { EventFilters as FilterTypes } from '../../types/event';
-import { format } from 'date-fns';
 
 const defaultFilters: FilterTypes = {
   searchQuery: '',
@@ -22,6 +21,16 @@ const defaultFilters: FilterTypes = {
   limit: 9
 };
 
+// Add categories to be used in filters
+export const categories = [
+  'Conference',
+  'Workshop',
+  'Seminar',
+  'Networking',
+  'Social',
+  'Other'
+];
+
 export default function EventList() {
   const { events, loading, error, pagination, fetchEvents } = useEvents();
   const { user } = useAuth();
@@ -33,16 +42,6 @@ export default function EventList() {
   });
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-  const categories = [
-    'All',
-    'Conference',
-    'Workshop',
-    'Seminar',
-    'Networking',
-    'Social',
-    'Other'
-  ];
 
   // Initial load of events
   useEffect(() => {

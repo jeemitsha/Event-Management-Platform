@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { EventFilters as FilterTypes } from '../../types/event';
 import { useEvents } from '../../context/EventContext';
 
