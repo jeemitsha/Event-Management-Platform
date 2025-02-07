@@ -4,7 +4,7 @@ import { Event, IEvent } from '../models/Event';
 import { buildEventQuery } from '../utils/search';
 import { Server } from 'socket.io';
 import { CreateEventInput, UpdateEventInput } from '../types/event';
-import { AuthRequest } from '../middleware/auth';
+import { AuthRequest } from '../types/express';
 import { IUser } from '../models/User';
 
 let io: Server;
@@ -60,7 +60,7 @@ export const getEvents = async (req: Request, res: Response): Promise<void> => {
 
 export const createEvent = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    if (!req.user || !req.user._id) {
+    if (!req.user?._id) {
       res.status(401).json({ error: 'Authentication required' });
       return;
     }
@@ -256,8 +256,4 @@ export const leaveEvent = async (req: AuthRequest, res: Response): Promise<void>
     console.error('Error leaving event:', error);
     res.status(400).json({ error: 'Failed to leave event' });
   }
-};
-
-interface AuthRequest extends Request {
-  user?: IUser;
-} 
+}; 
