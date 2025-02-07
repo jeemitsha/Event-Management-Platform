@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import authRoutes from './routes/authRoutes';
 import eventRoutes from './routes/eventRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 import { setIO } from './controllers/eventController';
 import { User } from './models/User';
 
@@ -75,6 +76,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
